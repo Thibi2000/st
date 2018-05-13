@@ -3376,7 +3376,6 @@ xloadcols(void)
 		for (cp = dc.col; cp < &dc.col[LEN(dc.col)]; ++cp)
 			XftColorFree(xw.dpy, xw.vis, xw.cmap, cp);
 	}
-
 	for (i = 0; i < LEN(dc.col); i++)
 		if (!xloadcolor(i, NULL, &dc.col[i])) {
 			if (getcolorname(i))
@@ -4315,10 +4314,7 @@ swapcolors(const Arg *dummy)
 	xloadcols();
 	redraw();
 }
-void test(const Arg *dummy)
-{
-	ttywrite("Called", 6);
-}
+
 char*
 kmap(KeySym k, uint state)
 {

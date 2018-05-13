@@ -84,50 +84,54 @@ static unsigned int tabspaces = 8;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
-  /* 8 normal colors */
-  [0] = "#000000", /* black   */
-  [1] = "#ff5555", /* red     */
-  [2] = "#50fa7b", /* green   */
-  [3] = "#f1fa8c", /* yellow  */
-  [4] = "#bd93f9", /* blue    */
-  [5] = "#ff79c6", /* magenta */
-  [6] = "#8be9fd", /* cyan    */
-  [7] = "#bbbbbb", /* white   */
+	/* 8 normal colors */
+	[0] = "#000000", /* black   */
+	[1] = "#ff5555", /* red     */
+	[2] = "#50fa7b", /* green   */
+	[3] = "#f1fa8c", /* yellow  */
+	[4] = "#bd93f9", /* blue    */
+	[5] = "#ff79c6", /* magenta */
+	[6] = "#8be9fd", /* cyan    */
+	[7] = "#bbbbbb", /* white   */
 
-  /* 8 bright colors */
-  [8]  = "#44475a", /* black   */
-  [9]  = "#ff5555", /* red     */
-  [10] = "#50fa7b", /* green   */
-  [11] = "#f1fa8c", /* yellow  */
-  [12] = "#bd93f9", /* blue    */
-  [13] = "#ff79c6", /* magenta */
-  [14] = "#8be9fd", /* cyan    */
-  [15] = "#ffffff", /* white   */
+	/* 8 bright colors */
+	[8]  = "#44475a", /* black   */
+	[9]  = "#ff5555", /* red     */
+	[10] = "#50fa7b", /* green   */
+	[11] = "#f1fa8c", /* yellow  */
+	[12] = "#bd93f9", /* blue    */
+	[13] = "#ff79c6", /* magenta */
+	[14] = "#8be9fd", /* cyan    */
+	[15] = "#ffffff", /* white   */
 
-  /* special colors */
-  [256] = "#282a36", /* background */
-  [257] = "#f8f8f2", /* foreground */
+	/* special colors */
+	[256] = "#282a36", /* background */
+	[257] = "#f8f8f2", /* foreground */
 };
 
 /* Terminal colors for alternate (light) palette */
 static const char *altcolorname[] = {
 	/* solarized light */
-	"#eee8d5",  /*  0: black    */
-	"#dc322f",  /*  1: red      */
-	"#859900",  /*  2: green    */
-	"#b58900",  /*  3: yellow   */
-	"#268bd2",  /*  4: blue     */
-	"#d33682",  /*  5: magenta  */
-	"#2aa198",  /*  6: cyan     */
-	"#073642",  /*  7: white    */
-	"#fdf6e3",  /*  8: brblack  */
-	"#cb4b16",  /*  9: brred    */
-	"#93a1a1",  /* 10: brgreen  */
-	"#839496",  /* 11: bryellow */
-	"#657b83",  /* 12: brblue   */
-	"#6c71c4",  /* 13: brmagenta*/
-	"#586e75",  /* 14: brcyan   */
-	"#002b36",  /* 15: brwhite  */
+	[0] = 	"#eee8d5",  /*  0: black    */
+	[1] = 	"#dc322f",  /*  1: red      */
+	[2] = 	"#859900",  /*  2: green    */
+	[3] = 	"#b58900",  /*  3: yellow   */
+	[4] = 	"#268bd2",  /*  4: blue     */
+	[5] = 	"#d33682",  /*  5: magenta  */
+	[6] = 	"#2aa198",  /*  6: cyan     */
+	[7] = 	"#073642",  /*  7: white    */
+	[8]  =  "#fdf6e3",  /*  8: brblack  */
+	[9]  =	"#cb4b16",  /*  9: brred    */
+	[10] =	"#93a1a1",  /* 10: brgreen  */
+	[11] =	"#839496",  /* 11: bryellow */
+	[12] =	"#657b83",  /* 12: brblue   */
+	[13] =	"#6c71c4",  /* 13: brmagenta*/
+	[14] =	"#586e75",  /* 14: brcyan   */
+	[15] =	"#002b36",  /* 15: brwhite  */
+	/* special colors */
+ 
+	[256] = "#282a36", /* background */
+	[257] = "#f8f8f2", /* foreground */
 };
 
 /*
@@ -176,14 +180,14 @@ static unsigned int defaultattr = 11;
  */
 static MouseShortcut mshortcuts[] = {
 	/* button               mask            string */
-	{ Button4,              XK_NO_MOD,      "\031" },
-	{ Button5,              XK_NO_MOD,      "\005" },
+	{ Button5,              ShiftMask,      "\031" },
+	{ Button4,              ShiftMask,      "\005" },
 };
 
 static MouseKey mkeys[] = {
 	/* button               mask            function        argument */
-	{ Button4,              ShiftMask,      kscrollup,      {.i =  1} },
-	{ Button5,              ShiftMask,      kscrolldown,    {.i =  1} },
+	{ Button4,              XK_NO_MOD,      kscrollup,      {.i =  1} },
+	{ Button5,              XK_NO_MOD,      kscrolldown,    {.i =  1} },
 };
 
 /* Internal keyboard shortcuts. */
@@ -204,7 +208,7 @@ static Shortcut shortcuts[] = {
 	{ MODKEY|ShiftMask,     XK_V,           clippaste,      {.i =  0} },
 	{ MODKEY,               XK_Num_Lock,    numlock,        {.i =  0} },
 	{ MODKEY,               XK_Control_L,   iso14755,       {.i =  0} },
-  { XK_ANY_MOD,           XK_F6,          swapcolors,     {.i =  0} },
+	{ XK_ANY_MOD,           XK_F6,          swapcolors,     {.i =  0} },
 	{ ShiftMask,            XK_Page_Up,     kscrollup,      {.i = -1} },
 	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
 };

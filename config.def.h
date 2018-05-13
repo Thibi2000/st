@@ -112,22 +112,26 @@ static const char *colorname[] = {
 /* Terminal colors for alternate (light) palette */
 static const char *altcolorname[] = {
 	/* solarized light */
-	"#eee8d5",  /*  0: black    */
-	"#dc322f",  /*  1: red      */
-	"#859900",  /*  2: green    */
-	"#b58900",  /*  3: yellow   */
-	"#268bd2",  /*  4: blue     */
-	"#d33682",  /*  5: magenta  */
-	"#2aa198",  /*  6: cyan     */
-	"#073642",  /*  7: white    */
-	"#fdf6e3",  /*  8: brblack  */
-	"#cb4b16",  /*  9: brred    */
-	"#93a1a1",  /* 10: brgreen  */
-	"#839496",  /* 11: bryellow */
-	"#657b83",  /* 12: brblue   */
-	"#6c71c4",  /* 13: brmagenta*/
-	"#586e75",  /* 14: brcyan   */
-	"#002b36",  /* 15: brwhite  */
+	[0] = 	"#eee8d5",  /*  0: black    */
+	[1] = 	"#dc322f",  /*  1: red      */
+	[2] = 	"#859900",  /*  2: green    */
+	[3] = 	"#b58900",  /*  3: yellow   */
+	[4] = 	"#268bd2",  /*  4: blue     */
+	[5] = 	"#d33682",  /*  5: magenta  */
+	[6] = 	"#2aa198",  /*  6: cyan     */
+	[7] = 	"#073642",  /*  7: white    */
+	[8]  =  "#fdf6e3",  /*  8: brblack  */
+	[9]  =	"#cb4b16",  /*  9: brred    */
+	[10] =	"#93a1a1",  /* 10: brgreen  */
+	[11] =	"#839496",  /* 11: bryellow */
+	[12] =	"#657b83",  /* 12: brblue   */
+	[13] =	"#6c71c4",  /* 13: brmagenta*/
+	[14] =	"#586e75",  /* 14: brcyan   */
+	[15] =	"#002b36",  /* 15: brwhite  */
+	/* special colors */
+ 
+	[256] = "#282a36", /* background */
+	[257] = "#f8f8f2", /* foreground */
 };
 
 /*
@@ -176,14 +180,14 @@ static unsigned int defaultattr = 11;
  */
 static MouseShortcut mshortcuts[] = {
 	/* button               mask            string */
-	{ Button4,              XK_NO_MOD,      "\031" },
-	{ Button5,              XK_NO_MOD,      "\005" },
+	{ Button5,              ShiftMask,      "\031" },
+	{ Button4,              ShiftMask,      "\005" },
 };
 
 static MouseKey mkeys[] = {
 	/* button               mask            function        argument */
-	{ Button4,              ShiftMask,      kscrollup,      {.i =  1} },
-	{ Button5,              ShiftMask,      kscrolldown,    {.i =  1} },
+	{ Button4,              XK_NO_MOD,      kscrollup,      {.i =  1} },
+	{ Button5,              XK_NO_MOD,      kscrolldown,    {.i =  1} },
 };
 
 /* Internal keyboard shortcuts. */
