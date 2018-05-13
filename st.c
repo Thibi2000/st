@@ -1797,7 +1797,6 @@ tscrolldown(int orig, int n, int copyhist)
 {
 	int i;
 	Line temp;
-
 	LIMIT(n, 0, term.bot-orig+1);
 
 	if (copyhist) {
@@ -4316,7 +4315,10 @@ swapcolors(const Arg *dummy)
 	xloadcols();
 	redraw();
 }
-
+void test(const Arg *dummy)
+{
+	ttywrite("Called", 6);
+}
 char*
 kmap(KeySym k, uint state)
 {
@@ -4639,7 +4641,6 @@ run:
 	xinit();
 	selinit();
 	run();
-
 	return 0;
 }
 
