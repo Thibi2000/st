@@ -211,7 +211,8 @@ static Shortcut shortcuts[] = {
 	{ XK_ANY_MOD,           XK_F6,          swapcolors,     {.i =  0} },
 	{ ShiftMask,            XK_Page_Up,     kscrollup,      {.i = -1} },
 	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
-	{ MODKEY|ShiftMask,     XK_N,           sendsignal,     {.i =  0} }
+	//{ MODKEY|ShiftMask,     XK_N,           sendsignal,     {.i =  0} }
+	{ ControlMask|ShiftMask,     XK_N,           sendsignal,     {.i =  0} }
 };
 
 /*
