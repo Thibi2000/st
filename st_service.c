@@ -21,7 +21,6 @@ void launch_terminal()
         pid_t pid;
         if ((pid=fork())==0) { 
                 execv("/home/thibault/st/st",NULL);
-                exit(127); 
         }
 }
 void sigproc(int dummy)
