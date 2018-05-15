@@ -51,6 +51,7 @@ The following patches have been applied, and fixed to co-exist
 The following things have been added manually, since I don't know how to make pathes( yet ).
 
 1. I added a "service" that runs as parent process so one can open several instances of st.
+
 Credits
 -------
 Based on Aurélien APTEL <aurelien dot aptel at gmail dot com> bt source code.
