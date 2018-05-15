@@ -47,7 +47,10 @@ The following patches have been applied, and fixed to co-exist
 4. support solarized and switch with F6:
     - st-no_bold_colors-20160727-308bfbf.diff
     - st-solarized-both-20160727-308bfbf.diff
+## Manually added features
+The following things have been added manually, since I don't know how to make pathes( yet ).
 
+1. I added a "service" that runs as parent process so one can open several instances of st.
 Credits
 -------
 Based on Aurélien APTEL <aurelien dot aptel at gmail dot com> bt source code.
