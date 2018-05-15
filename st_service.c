@@ -7,18 +7,21 @@
 void sigproc(int);
 void launch_terminal();
 
-void main()
+int
+main()
 {	
         pid_t wpid;
         signal(SIGUSR1, sigproc); 
         launch_terminal();
         while((wpid = wait(NULL)) > 0);
+	return 0;
 } 
-void launch_terminal(){
+void launch_terminal()
+{
         pid_t pid;
-        if ((pid=fork())==0) { /* child process */
+        if ((pid=fork())==0) { 
                 execv("/home/thibault/st/st",NULL);
-                exit(127); /* only if execv fails */
+                exit(127); 
         }
 }
 void sigproc(int dummy)
