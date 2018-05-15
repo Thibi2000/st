@@ -3,10 +3,11 @@
 
 include config.mk
 
+CURRENT_DIR = $(shell pwd)
 SRC = st.c
 OBJ = ${SRC:.c=.o}
-
-all: options st
+SERVICE = st_service.c
+all: options st st_service
 
 options:
 	@echo st build options:
@@ -24,12 +25,16 @@ config.h:
 ${OBJ}: config.h config.mk
 
 st: ${OBJ}
+	@echo compiling Suckless Terminal
 	@echo CC -o $@
 	@${CC} -o $@ ${OBJ} ${LDFLAGS}
-
+st_service:
+	@echo compiling Suckless Terminal service
+	@echo CC -o $@
+	@${CC} -o $@ ${SERVICE}
 clean:
 	@echo cleaning
-	@rm -f config.h st ${OBJ} st-${VERSION}.tar.gz
+	@rm -f config.h st st_service ${OBJ} st-${VERSION}.tar.gz
 
 dist: clean
 	@echo creating dist tarball
@@ -40,10 +45,7 @@ dist: clean
 	@rm -rf st-${VERSION}
 
 install: all
-	@echo installing executable file to ${DESTDIR}${PREFIX}/bin
-	@mkdir -p ${DESTDIR}${PREFIX}/bin
-	@cp -f st ${DESTDIR}${PREFIX}/bin
-	@chmod 755 ${DESTDIR}${PREFIX}/bin/st
+	@ln -fs ${CURRENT_DIR}/st_service ${DESTDIR}${PREFIX}/bin/st
 	@echo installing manual page to ${DESTDIR}${MANPREFIX}/man1
 	@mkdir -p ${DESTDIR}${MANPREFIX}/man1
 	@sed "s/VERSION/${VERSION}/g" < st.1 > ${DESTDIR}${MANPREFIX}/man1/st.1
