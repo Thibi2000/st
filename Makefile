@@ -35,6 +35,7 @@ st_service:
 clean:
 	@echo cleaning
 	@rm -f config.h st st_service ${OBJ} st-${VERSION}.tar.gz
+	@./clean
 
 dist: clean
 	@echo creating dist tarball
@@ -45,7 +46,8 @@ dist: clean
 	@rm -rf st-${VERSION}
 
 install: all
-	@ln -fs ${CURRENT_DIR}/st_service ${DESTDIR}${PREFIX}/bin/st
+	@cp -f ${CURRENT_DIR}/st ${DESTDIR}${PREFIX}/bin/st
+	@cp -f ${CURRENT_DIR}/st_service ${DEST_SERVICEDIR}${PREFIX}/bin/st_service
 	@echo installing manual page to ${DESTDIR}${MANPREFIX}/man1
 	@mkdir -p ${DESTDIR}${MANPREFIX}/man1
 	@sed "s/VERSION/${VERSION}/g" < st.1 > ${DESTDIR}${MANPREFIX}/man1/st.1

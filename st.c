@@ -12,7 +12,9 @@
 #include <signal.h>
 #include <stdint.h>
 #include <sys/ioctl.h>
+#include <sys/ipc.h>
 #include <sys/select.h>
+#include <sys/shm.h>
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <sys/types.h>
@@ -367,6 +369,8 @@ static void iso14755(const Arg *);
 static void toggleprinter(const Arg *);
 static void sendbreak(const Arg *);
 static void sendsignal(const Arg *);
+
+/*function definitions added by Thibi2000*/
 
 /* Config.h for applying patches and the configuration. */
 #include "config.h"
@@ -2720,7 +2724,7 @@ sendbreak(const Arg *arg)
 void
 sendsignal(const Arg *arg)
 {
-        pid_t parent = getppid();
+        pid_t parent = getppid();//TODO: service instead of parent
 	kill(parent, SIGUSR1);
 }
 
@@ -4638,71 +4642,89 @@ usage(void)
 	    "          [-T title] [-t title] [-w windowid] -l line"
 	    " [stty_args ...]\n", argv0, argv0);
 }
+int _main(int argc, char *argv[]){
+	        xw.l = xw.t = 0;
+		xw.isfixed = False;
+		xw.cursor = cursorshape;
 
+		ARGBEGIN {
+			case 'a':
+				allowaltscreen = 0;
+				break;
+			case 'c':
+				opt_class = EARGF(usage());
+				break;
+			case 'e':
+				if (argc > 0)
+					--argc, ++argv;
+				goto run;
+			case 'f':
+				opt_font = EARGF(usage());
+				break;
+			case 'g':
+				xw.gm = XParseGeometry(EARGF(usage()),
+			        &xw.l, &xw.t, &cols, &rows);
+				break;
+			case 'i':
+				xw.isfixed = 1;
+				break;
+			case 'o':
+				opt_io = EARGF(usage());
+				break;
+			case 'l':
+				opt_line = EARGF(usage());
+				break;
+			case 'n':
+				opt_name = EARGF(usage());
+				break;
+			case 't':
+			case 'T':
+				opt_title = EARGF(usage());
+				break;
+			case 'w':
+				opt_embed = EARGF(usage());
+				break;
+			case 'v':
+				die("%s " VERSION " (c) 2010-2016 st engineers\n", argv0);
+				break;
+			default:
+				usage();
+		} ARGEND;
+	run:
+		if (argc > 0) {
+			/* eat all remaining arguments */
+			opt_cmd = argv;
+			if (!opt_title && !opt_line)
+				opt_title = basename(xstrdup(argv[0]));
+		}
+		setlocale(LC_CTYPE, "");
+		XSetLocaleModifiers("");
+		tnew(MAX(cols, 1), MAX(rows, 1));
+		xinit();
+		selinit();
+		run();
+		return 0;
+}
 int
 main(int argc, char *argv[])
 {
-	xw.l = xw.t = 0;
-	xw.isfixed = False;
-	xw.cursor = cursorshape;
+	pid_t p;
+	int shmid;
+	key_t key;
+	key = 2000;
+	shmid = shmget(key, sizeof(char), 0666);
+	if(shmid < 0 ){//memory doesn't exist yet
+		if((p = fork()) != 0){
+			printf("making service\n");
+			execv("/home/thibault/st/st_service", NULL);	
+		}else if (p == -1){
+			perror("couldn't make child\n");
+		}else{
+			return _main(argc, argv);
+		}	
 
-	ARGBEGIN {
-	case 'a':
-		allowaltscreen = 0;
-		break;
-	case 'c':
-		opt_class = EARGF(usage());
-		break;
-	case 'e':
-		if (argc > 0)
-			--argc, ++argv;
-		goto run;
-	case 'f':
-		opt_font = EARGF(usage());
-		break;
-	case 'g':
-		xw.gm = XParseGeometry(EARGF(usage()),
-				&xw.l, &xw.t, &cols, &rows);
-		break;
-	case 'i':
-		xw.isfixed = 1;
-		break;
-	case 'o':
-		opt_io = EARGF(usage());
-		break;
-	case 'l':
-		opt_line = EARGF(usage());
-		break;
-	case 'n':
-		opt_name = EARGF(usage());
-		break;
-	case 't':
-	case 'T':
-		opt_title = EARGF(usage());
-		break;
-	case 'w':
-		opt_embed = EARGF(usage());
-		break;
-	case 'v':
-		die("%s " VERSION " (c) 2010-2016 st engineers\n", argv0);
-		break;
-	default:
-		usage();
-	} ARGEND;
-
-run:
-	if (argc > 0) {
-		/* eat all remaining arguments */
-		opt_cmd = argv;
-		if (!opt_title && !opt_line)
-			opt_title = basename(xstrdup(argv[0]));
+	}else{
+		return _main(argc, argv);
 	}
-	setlocale(LC_CTYPE, "");
-	XSetLocaleModifiers("");
-	tnew(MAX(cols, 1), MAX(rows, 1));
-	xinit();
-	selinit();
-	run();
-	return 0;
 }
 
