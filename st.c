@@ -371,7 +371,7 @@ static void sendbreak(const Arg *);
 static void sendsignal(const Arg *);
 
 /*function definitions added by Thibi2000*/
-
+int _main(int, char**); //I don't like the long main
 /* Config.h for applying patches and the configuration. */
 #include "config.h"
 
@@ -4642,7 +4642,9 @@ usage(void)
 	    "          [-T title] [-t title] [-w windowid] -l line"
 	    " [stty_args ...]\n", argv0, argv0);
 }
-int _main(int argc, char *argv[]){
+int
+_main(int argc, char *argv[])
+{
 	        xw.l = xw.t = 0;
 		xw.isfixed = False;
 		xw.cursor = cursorshape;
